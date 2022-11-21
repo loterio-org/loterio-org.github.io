@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
+        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="navbar.css">
+        <style>
+            p {
+                margin-top: 12px;
+            }
+        </style>
+    </head>
+<body>
+
+<div class="navbar">
+    <ul>
+        <li><a href="index.html"><h2>Lotto</h2></a></li>
+        <li><a href="record.html"><h2>Record</h2></a></li>
+        <li><a href="info.html"><h2>Info</h2></a></li>
+    </ul>
+</div>
+<div class="content">
+    <!--Record-->
+    <div class="container-v-b">
+        <h1 style="text-align: center;">Lotto'n-chain</h1>
+        <p style="text-align: center;"><i>A decentralized lottery system on blockchain.</i></p>
+        <br>
+        <h2>Description</h2>
+        <div>
+            <p>Lotto&apos;n-chain is a lottery system using the blockchain technology working within the Ethereum Virtual Machine.</p>
+        </div>
+        <div>
+            <p>As any other lottery, it has a start, pot, participants, an end, and a winner, but some mechanisms have been implemented for decentralization and governance.</p>
+        </div>
+        <div>
+            <p>In summary, the lottery process works as follows:</p>
+        </div>
+        <div>
+            <p>A lottery process is started, then users can start to participate. Pot is increased with each participation. After a specified period, the lottery ends, entries are closed, and a winner is chosen. The winner receives the accumulated pot, and a new lottery can be started.</p>
+        </div>
+        <br>
+        <h2>Participation</h2>
+        <div>
+            <div>
+                <p>Connect to the lottery using a web3 wallet.</p>
+            </div>
+            <div>
+                <p>Choose one of the networks available. Each lottery at each network work independently from each other.</p>
+            </div>
+            <div>
+                <p>Now you can participate calling the <em>participate()</em> function in the contract or directly from the webpage.</p>
+            </div>
+            <div>
+                <p><em>* The status of the raffle has to be active to participate.</em></p>
+            </div>
+        </div>
+        <br>
+        <h2>Rules and concepts</h2>
+        <div>
+            <div>
+                <p>Pot is increased with each participation.</p>
+            </div>
+            <div>
+                <p>Blockchain cannot manage automatic processes, someone has always to call a function from contract in order to perform an action. That means, that someone has to start and end the lottery process each time.</p>
+            </div>
+            <div>
+                <p>To ensure that, two additional incentives have been implemented:&nbsp;</p>
+            </div>
+            <div>
+                <ul>
+                    <li>
+                        <p><em>Start incentive</em>: A reward given to the user that starts the lottery.</p>
+                    </li>
+                    <li>
+                        <p><em>End incentive</em>: A reward given to the user that ends the lottery.</p>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <p>With them, when a user performs any of these actions, they receive a reward for it, doing profitable for them ending a current lottery or starting a new one, and ensuring the lottery have an end and a new one is always started.</p>
+            </div>
+            <div>
+                <p>Alright, set a rule for starting a new lottery is simple, when one is over, you can start the next one. But, what about to be able to end it?</p>
+            </div>
+            <div>
+                <p>In order to prevent users to end it up earlier than the end date, each time a user tries to do it, the blockchain looks for the start date and the duration stablished for the current lottery, and then it decides if it&rsquo;s time or not to finish it. Users can look for it using the <em>checkEnd()</em> function in the contract, that let you know when a lottery can be finished. If a user tries to do it earlier than the expected end date, the action will be rejected by the contract and not performed.</p>
+            </div>
+            <div>
+                <p>In addition, in each lottery, a pot for the next lottery is also accumulated. That way, there is always a good reason to participate, even you are the only one in it!</p>
+            </div>
+        </div>
+        <div>
+            <div>
+                <p>All these incentives are directly dependent of the participations. The cost of each entry is not used only to increase the current pot, but to ensure these incentives.</p>
+            </div>
+            <div>
+                <p>We can find the next ratios, equivalent to the proportion provided to each incentive/reward:</p>
+            </div>
+            <div>
+                <ul>
+                    <li>
+                        <p><em>Pot ratio</em>: Percentage of the entry used to increase the pot.</p>
+                    </li>
+                    <li>
+                        <p><em>Start ratio</em>: Percentage of the entry allocated to the start incentive.</p>
+                    </li>
+                    <li>
+                        <p><em>End ratio</em>: Percentage of the entry allocated to the end incentive.</p>
+                    </li>
+                    <li>
+                        <p><em>Init ratio</em>: Percentage of the entry used to accumulate the pot for next lottery.</p>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <p>Despite these, any pot and incentive can be increased, if necessary, to avoid unwanted states. In addition, lottery can be set under maintenance, preventing a new lottery to start and allowing ratios to be modified.</p>
+            </div>
+            <div>
+                <p>As for the rewards obtained by users (winning, starting or ending a lottery), they just accumulate and can be claimed at any time using the <em>claim()</em> function in the contract or directly from the webpage.</p>
+            </div>
+        </div>
+        <br>
+        <h2>Contract</h2>
+        <div>
+            <div>
+                <div>
+                    <p>Contract address:</p>
+                </div>
+                <div>
+                    <p>0x0B1186bC0cE0cCC3e00e568237949c4358ECa1B0</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

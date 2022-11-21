@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
+        <script type="module" src="scripts/record.js"></script>
+        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="navbar.css">
+    </head>
+<body>
+
+<div class="navbar">
+    <ul>
+        <li><a href="index.html"><h2>Lotto</h2></a></li>
+        <li><a href="record.html"><h2>Record</h2></a></li>
+        <li><a href="info.html"><h2>Info</h2></a></li>
+    </ul>
+</div>
+<div class="content">
+    <!--Network-->
+    <div class="container-v-b" style="width: 100%;">
+        <div class="sb">
+            <h3>Network</h3>
+            <select id="network" name="network">
+                <option value="polygonmum">Polygon Mumbai</option>
+            </select>
+        </div>
+    </div>
+    <!--Record-->
+    <div class="container-v-b">
+        <h1>Record</h1>
+        <br>
+        <table id="record">
+            <tr>
+                <th>ID</th>
+                <th>Pot (MATIC)</th>
+                <th>Entries</th>
+                <th>Winner</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Start Incentive (MATIC)</th>
+                <th>Starter</th>
+                <th>End Incentive (MATIC)</th>
+                <th>Finisher</th>
+            </tr>
+        </table>
+        <br>
+        <div class="container-h">
+            <button id="back" disabled>Back</button>
+            <p id="page"></p>
+            <button id="next" disabled>Next</button>
+            <p id="loading"></p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

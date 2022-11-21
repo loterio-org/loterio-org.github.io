@@ -1,0 +1,75 @@
+.content {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 16px;
+}
+
+.container-v-b {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+    padding: 8px;
+    width: 100vh;
+    min-width: fit-content;
+    height: fit-content;
+}
+
+.container-v {
+    display: flex;
+    flex-direction: column;
+}
+
+.container-h {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.pp {
+    display: flex;
+    align-items: baseline;
+    gap: 8px
+}
+
+.sb {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px
+}
+
+.line-h {
+    border-bottom: thin solid black;
+    margin: 8px 0 8px 0;
+}
+
+.line-v {
+    border-left: thin solid black;
+}
+
+h1, h2, h3, h4, h5, p {
+    margin: 0;
+}
+
+button {
+    padding: 4px;
+    min-height: 2vh;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    table-layout: fixed;
+    width: 100%;
+    overflow-x: auto;
+}
+
+td, th {
+    text-align: left;
+    padding: 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border-bottom: thin solid black;
+}
