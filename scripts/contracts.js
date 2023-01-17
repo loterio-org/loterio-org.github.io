@@ -5,7 +5,7 @@ import { ids, rpcs, networks } from './networks.js'
 const contracts = {
     ethereum: '',
     polygon: '',
-    binance: '',
+    binance: '0x92a01522F34171f27902B0d8Aaa129D4aE37c1fE',
     avalanche: '',
     fantom: '',
     arbitrum: '',
@@ -17,7 +17,7 @@ const contracts = {
 const contractExplorers = {
     ethereum: '',
     polygon: '',
-    binance: '',
+    binance: 'https://bscscan.com/address/0x92a01522f34171f27902b0d8aaa129d4ae37c1fe',
     avalanche: '',
     fantom: '',
     arbitrum: '',

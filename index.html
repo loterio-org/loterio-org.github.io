@@ -10,6 +10,7 @@
 
 <div class="navbar">
     <ul>
+        <li><img src="img/logo.svg" alt="Loterio" title="Loterio"></li>
         <li><a href="index.html"><h2>Lotto</h2></a></li>
         <li><a href="record.html"><h2>Record</h2></a></li>
         <li><a href="info.html"><h2>Info</h2></a></li>
@@ -21,7 +22,8 @@
         <div class="sb">
             <h3>Network</h3>
             <select id="network" name="network">
-                <option value="polygonmum">Polygon Mumbai</option>
+                <option value="binance">Binance</option>
+                <option value="polygonmum">Polygon Mumbai (Test)</option>
             </select>
         </div>
         <div class="sb">
@@ -49,14 +51,14 @@
         </div>
         <div class="line-h"></div>
         <div class="sb">
-            <h3>Current pot</h3>
+            <h3 id="potLabel">Current pot</h3>
             <p id="pot" style="font-weight: bold;"></p>
         </div>
         <div class="line-h"></div>
         <div class="container-h">
             <div class="container-v" style="flex-grow: 1">
                 <div class="sb">
-                    <h3>Price</h3>
+                    <h3 id="priceLabel">Price</h3>
                     <p id="price"></p>
                 </div>
                 <div class="sb">
@@ -102,16 +104,16 @@
         <h1>Management</h1>
         <div class="line-h"></div>
         <div class="sb">
-            <h3>Start incentive</h3>
+            <h3 id="startIncentiveLabel">Start incentive</h3>
             <p id="startIncentive"></p>
         </div>
         <div class="sb">
-            <h3>End incentive</h3>
+            <h3 id="endIncentiveLabel">End incentive</h3>
             <p id="endIncentive"></p>
         </div>
         <div class="line-h"></div>
         <div class="sb">
-            <h4>Next initial pot</h4>
+            <h4 id="initialPotLabel">Next initial pot</h4>
             <p id="initPot"></p>
         </div>
         <div class="line-h"></div>
@@ -156,7 +158,7 @@
     <div class="container-v-b">
         <h1>Rewards</h1>
         <div class="sb">
-            <h3>Claimable reward</h3>
+            <h3 id="claimableLabel">Claimable</h3>
             <p id="reward"></p>
         </div>
         <div class="line-h"></div>

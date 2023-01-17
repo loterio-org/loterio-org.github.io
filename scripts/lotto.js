@@ -1,22 +1,15 @@
 import { contracts, getContract } from "./contracts.js";
-import { ids, rpcs, explorers, currencies } from './networks.js'
+import { ids, rpcIds, rpcs, explorers, currencies } from './networks.js'
 import { getWeb3Signer, getWeb3Provider, onAccountChanged, onChainChanged } from "./web3.js";
 import { unixToDate } from "./utils.js";
 import abi from '../../contract_abi.json' assert { type: 'json' };
-
-//const ethereum = window.ethereum;
-//const accounts = await ethereum.request({
-//    method: "eth_requestAccounts"
-//});
-//const walletAddress = accounts[0];
-//const provider = new ethers.providers.Web3Provider(ethereum);
-//const signer = provider.getSigner(walletAddress);
 
 var signer;
 var address;
 var provider;
 
 var contract;
+var selectedNetwork;
 
 var status;
 var maintenance;
@@ -45,13 +38,14 @@ async function connectWeb3() {
     document.getElementById('address').innerHTML = 'Waitting for your response...';
     document.getElementById('address').style.display = 'block';
     document.getElementById('connect').style.display = 'none';
+    selectedNetwork = document.getElementById('network').value;
     signer = await getWeb3Signer();
 
     if(signer){
         address = await signer.getAddress();
         document.getElementById('address').innerHTML = `${address}`;
         provider = getWeb3Provider();
-        contract = new ethers.Contract(contracts.polygonmum, abi, signer);
+        contract = new ethers.Contract(contracts[selectedNetwork], abi, signer);
         checkNetwork();
     } else {
         init(false, false)
@@ -64,7 +58,7 @@ onAccountChanged(() => {
 
 onChainChanged(async () => {
     let network = await provider.getNetwork();
-    if(network.chainId != 80001){
+    if(network.chainId != ids[selectedNetwork]){
         init(true, false);
     } else {
         init(true, true);
@@ -72,11 +66,10 @@ onChainChanged(async () => {
 })
 
 async function checkNetwork() {
-    let selectedNetwork = document.getElementById('network').value
     await ethereum.request({
         method: "wallet_addEthereumChain",
         params: [{
-            chainId: `0x${ids[selectedNetwork]}`,
+            chainId: `0x${rpcIds[selectedNetwork]}`,
             rpcUrls: [rpcs[selectedNetwork]],
             chainName: selectedNetwork,
             nativeCurrency: currencies[selectedNetwork],
@@ -85,7 +78,7 @@ async function checkNetwork() {
     }).then(async (result) => {
         let network = await provider.getNetwork();
         //ids[selectedNetwork]
-        if(network.chainId != 80001){
+        if(network.chainId != ids[selectedNetwork]){
             init(true, false);
         } else {
             init(true, true);
@@ -97,13 +90,17 @@ async function init(user, network) {
 
     if(!network){
         deactiveButtons();
-        contract = getContract(document.getElementById('network').value);
+        contract = getContract(selectedNetwork);
         document.getElementById('connection').innerHTML = 'not connected';
         document.getElementById('connection').style.color = 'red';
     } else {
+        contract = new ethers.Contract(contracts[selectedNetwork], abi, signer);
         document.getElementById('connection').innerHTML = 'connected';
         document.getElementById('connection').style.color = 'green';
+
     }
+
+    setLabels(document.getElementById('network').value);
 
     status = await contract.checkStatus();
     maintenance = await contract.checkMaintenance();
@@ -115,15 +112,17 @@ async function init(user, network) {
     } else if(status) {
         document.getElementById('status').innerHTML = 'active';
         document.getElementById('status').style.color = 'green';
-        loadInfo();
+        
     } else {
         document.getElementById('status').innerHTML = 'inactive';
         document.getElementById('status').style.color = 'red';
     }
-    loadManagement();
+
+    loadInfo();
+    await loadManagement();
     if(user){
-        loadParticipation();
-        loadReward();
+        await loadParticipation();
+        await loadReward();
         if(network){
             loadManagementButtons();
             loadParticipationButtons();
@@ -139,15 +138,15 @@ async function init(user, network) {
 }
 
 document.getElementById('network').onchange = () => { 
-    checkNetwork();
+    connectWeb3();
 };
 
 async function loadInfo() {
     await loadInfoData();
     document.getElementById('id').innerHTML = id;
     document.getElementById('starter').innerHTML = starter;
-    document.getElementById('pot').innerHTML = pot;
-    document.getElementById('price').innerHTML = price;
+    document.getElementById('pot').innerHTML = ethers.utils.formatEther(pot);
+    document.getElementById('price').innerHTML = ethers.utils.formatEther(price);
     document.getElementById('period').innerHTML = period;
     document.getElementById('startDate').innerHTML = unixToDate(startDate);
     document.getElementById('endDate').innerHTML = unixToDate(endDate);
@@ -160,9 +159,9 @@ async function loadInfo() {
 
 async function loadManagement() {
     await loadManagementData();
-    document.getElementById('startIncentive').innerHTML = startIncentive;
-    document.getElementById('endIncentive').innerHTML = endIncentive;
-    document.getElementById('initPot').innerHTML = initPot;
+    document.getElementById('startIncentive').innerHTML = ethers.utils.formatEther(startIncentive);
+    document.getElementById('endIncentive').innerHTML = ethers.utils.formatEther(endIncentive);
+    document.getElementById('initPot').innerHTML = ethers.utils.formatEther(initPot);
     document.getElementById('endable').innerHTML = endable;
 }
 
@@ -173,7 +172,7 @@ async function loadParticipation() {
 
 async function loadReward() {
     await loadRewardData();
-    document.getElementById('reward').innerHTML = claimable;
+    document.getElementById('reward').innerHTML = ethers.utils.formatEther(claimable);
 }
 
 async function loadInfoData() {
@@ -239,7 +238,7 @@ function loadParticipationButtons() {
 }
 
 function loadRewardButtons() {
-    document.getElementById('claim').disabled = false;
+    document.getElementById('claim').disabled = !claimable > 0;
     document.getElementById('claim').onclick = () => { 
         contract.claim();
     };
@@ -250,4 +249,13 @@ function deactiveButtons() {
     document.getElementById('end').disabled = true;
     document.getElementById('claim').disabled = true;
     document.getElementById('participate').disabled = true;
+}
+
+function setLabels(network) {
+    document.getElementById('potLabel').innerHTML = `Current pot (${currencies[network].symbol})`;
+    document.getElementById('priceLabel').innerHTML = `Price (${currencies[network].symbol})`;
+    document.getElementById('startIncentiveLabel').innerHTML = `Start incentive (${currencies[network].symbol})`;
+    document.getElementById('endIncentiveLabel').innerHTML = `End incentive (${currencies[network].symbol})`;
+    document.getElementById('initialPotLabel').innerHTML = `Next initial pot (${currencies[network].symbol})`;
+    document.getElementById('claimableLabel').innerHTML = `Claimable (${currencies[network].symbol})`;
 }

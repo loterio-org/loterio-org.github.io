@@ -1,5 +1,5 @@
 import { getContract } from "./contracts.js";
-import { explorers } from "./networks.js";
+import { explorers, currencies } from "./networks.js";
 import { unixToDate } from "./utils.js";
 import { loadingTextAnimation, finishLoadingAnimation } from "./animations.js";
 
@@ -10,13 +10,15 @@ var explorer;
 var registers;
 var pages;
 var currentPage;
+var selectedNetwork;
 
 init();
 
 async function init() {
-    let network = document.getElementById('network').value;
-    contract = getContract(network);
-    explorer = explorers[network];
+    selectedNetwork = document.getElementById('network').value;
+    cleanRecord();
+    contract = getContract(selectedNetwork);
+    explorer = explorers[selectedNetwork];
     currentPage = 1;
     registers = await contract.getId();
     if(registers <= maxLoad) {
@@ -59,7 +61,7 @@ async function init() {
     };
 }
 
-document.getElementById('network').onchange = () => { 
+document.getElementById('network').onchange = () => {
     init();
 };
 
@@ -112,14 +114,14 @@ function cleanRecord() {
     document.getElementById('record').innerHTML = (
         `<tr>
             <th>ID</th>
-            <th>Pot (MATIC)</th>
+            <th>Pot (${currencies[selectedNetwork].symbol})</th>
             <th>Entries</th>
             <th>Winner</th>
             <th>Start Date</th>
             <th>End Date</th>
-            <th>Start Incentive (MATIC)</th>
+            <th>Start Incentive (${currencies[selectedNetwork].symbol})</th>
             <th>Starter</th>
-            <th>End Incentive (MATIC)</th>
+            <th>End Incentive (${currencies[selectedNetwork].symbol})</th>
             <th>Finisher</th>
         </tr>`
     )

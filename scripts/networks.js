@@ -28,7 +28,7 @@ const ids ={
     fantom: 250,
     arbitrum: 42161,
     optimism: 10,
-    polygonmum: 13881
+    polygonmum: 80001
 }
 
 const chainById = {
@@ -42,10 +42,21 @@ const chainById = {
     80001: 'polygonmum'
 }
 
+const rpcIds ={
+    ethereum: 1,
+    polygon: 137,
+    binance: 38,
+    avalanche: 43114,
+    fantom: 250,
+    arbitrum: 42161,
+    optimism: 10,
+    polygonmum: 13881
+}
+
 const rpcs = {
     ethereum: 'https://mainnet.infura.io/v3/',
     polygon: 'https://polygon-rpc.com/',
-    binance: 'https://bsc-dataseed.binance.org/',
+    binance: 'https://bsc-dataseed1.binance.org',
     avalanche: 'https://api.avax.network/ext/bc/C/rpc',
     fantom: 'https://rpc.ftm.tools',
     arbitrum: 'https://arb1.arbitrum.io/rpc',
@@ -54,10 +65,16 @@ const rpcs = {
 }
 
 const explorers = {
+    binance: 'https://bscscan.com/',
     polygonmum: 'https://mumbai.polygonscan.com/'
 }
 
 const currencies = {
+    binance: {
+        name: "BNB",
+        symbol: "BNB",
+        decimals: 18
+    },
     polygonmum: {
         name: "MATIC",
         symbol: "MATIC",
@@ -70,6 +87,7 @@ export {
     networks,
     ids,
     chainById,
+    rpcIds,
     rpcs,
     explorers,
     currencies

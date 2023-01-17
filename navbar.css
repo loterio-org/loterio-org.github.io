@@ -28,3 +28,7 @@
 .navbar li a:hover {
   background-color: rgb(230, 230, 230);
 }
+
+.navbar img {
+  height: 58px;
+}
